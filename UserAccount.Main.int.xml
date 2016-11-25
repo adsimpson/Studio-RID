@@ -2,9 +2,6 @@
 <Export generator="Cache" version="25">
 <Routine name="UserAccount.Main" type="INT" languagemode="0"><![CDATA[
 
- ;vc; Version UserAccount.Main.INT/RID.3  Date 24-Nov-16  By User  Location RID$M
- ;vc; Component name INT.UserAccount.Main  Routine name: UserAccount.Main
-
 DisplayAccountInfo() PUBLIC {
 	WRITE "Account Name: "_$$FullName^UserAccount.Utilities($USERNAME),!
 	WRITE "Startup Namespace: "_$$StartupNamespace^UserAccount.Utilities($USERNAME),!

@@ -2,10 +2,6 @@
 <Export generator="Cache" version="25">
 <Routine name="UserAccount.Utilities" type="INT" languagemode="0"><![CDATA[
 
- ;vc; Version UserAccount.Utilities.INT/RID.1  Date 24-Nov-16  By User  Location RID$M
- ;vc; Component name INT.UserAccount.Utilities  Routine name: UserAccount.Utilities
- 
- 
  // Returns the comment defined for a specifed account 
  // @param {String} accountID
  // @returns {String}
