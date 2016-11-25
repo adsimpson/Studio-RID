@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Routine name="UserAccount.Utilities" type="INT" languagemode="0"><![CDATA[
+
+ ;vc; Version UserAccount.Utilities.INT/RID.1  Date 24-Nov-16  By User  Location RID$M
+ ;vc; Component name INT.UserAccount.Utilities  Routine name: UserAccount.Utilities
+ 
+ 
+ // Returns the comment defined for a specifed account 
+ // @param {String} accountID
+ // @returns {String}
+Comment(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"Comment")
+}
+
+ // Does a user account exist in Cache for a specified account ID?
+ // @param {String} accountID
+ // @returns {Boolean}
+Defined(accountID) PUBLIC {
+	QUIT $$ClassMethod("%ExistsId",$ZCONVERT(accountID,"L"))
+}
+
+ // Is the specified user account enabled?
+ // @param {String} accountID
+ // @returns {Boolean}
+Enabled(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"Enabled")
+}
+
+ // Expiration date of a specified account
+ // @param {String} accountID
+ // @returns {Date}
+ExpirationDate(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"ExpirationDate")
+}
+
+ // Returns the full name defined for a specifed account 
+ // @param {String} accountID
+ // @returns {String}
+FullName(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"FullName")
+}
+
+ // Returns the number of unsuccessful login attempts (since the last successful one) for a specified account
+ // @param {String} accountID
+ // @returns {Integer}
+InvalidLoginAttempts(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"InvalidLoginAttempts")
+}
+
+ // Returns the latest successful login date/time for a specified account
+ // @param {String} accountID
+ // @returns {$HOROLOG}
+LatestValidLogin(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"LoginDateTime")
+}
+
+ // Returns the latest successful login device for a specified account
+ // @param {String} accountID
+ // @returns {String}
+LatestValidLoginDevice(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"LoginDevice")
+}
+
+ // Returns the latest successful login service for a specified account
+ // @param {String} accountID
+ // @returns {String}
+LatestValidLoginService(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"LoginService")
+}
+
+ // Returns the latest unsuccessful login date/time for a specified account
+ // @param {String} accountID
+ // @returns {$HOROLOG}
+LatestInvalidLogin(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"InvalidLoginDateTime")
+}
+
+ // Returns the latest unsuccessful login device for a specified account
+ // @param {String} accountID
+ // @returns {String}
+LatestInvalidLoginDevice(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"InvalidLoginDevice")
+}
+
+ // Returns the latest unsuccessful login service for a specified account
+ // @param {String} accountID
+ // @returns {String}
+LatestInvalidLoginService(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"InvalidLoginService")
+}
+
+ // Returns the latest unsuccessful login status for a specified account
+ // @param {String} accountID
+ // @returns {Status@RID.Utilities.Status}
+LatestInvalidLoginStatus(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"InvalidLoginStatus")
+}
+
+ // The start-up namespace for a specified account
+ // @param {String} accountID
+ // @returns {Status@RID.Utilities.Status}
+StartupNamespace(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"NameSpace")
+}
+
+ // Does the specified user account hold the '%All' role?
+ // @param {String} accountID
+ // @returns {Boolean}
+SuperUser(accountID) PUBLIC {
+	QUIT $$PropertyValue(accountID,"SuperUser")
+}
+
+ //	-----------------------------------------------------------------
+ // Utility Functions
+ //	-----------------------------------------------------------------
+
+ // Executes a class method on the 'Security.Users' class
+ // @param {String} methodName - The name of the class method to execute
+ // @returns {ANY}
+ClassMethod(methodName,args...) PUBLIC {
+	// 'Security.Users' class is only accessible in '%SYS'
+	//  - so we need to temporarily switch into that namespace to execute the method
+	NEW $NAMESPACE SET $NAMESPACE="%SYS"
+	QUIT $CLASSMETHOD("Security.Users",methodName,args...)
+}
+
+ // Opens a user account with a specified account ID
+ // @param {String} accountID
+ // @returns {ObjectHandle}
+OpenId(accountID) PUBLIC {
+	QUIT $$ClassMethod("%OpenId",$ZCONVERT(accountID,"L"))
+}
+
+ // Returns the stored property value for a specified account ID
+ // @param {String} accountID
+ // @param {String} propertyName - The name of the class method to execute
+ // @returns {ANY}
+PropertyValue(accountID,propertyName) PUBLIC {
+	SET value=""
+	// Wrap in a TRY/CATCH just in case 'propertyName' does not exist for 'Security.Users'
+	TRY {
+		SET accountRef=$$OpenId(accountID)
+		SET:($ISOBJECT(accountRef)) value=$PROPERTY(accountRef,propertyName)
+	}
+	CATCH {
+	}
+	QUIT value
+}
+
+]]></Routine>
+</Export>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Routine name="UserAccount.Main" type="INT" languagemode="0"><![CDATA[
+
+ ;vc; Version UserAccount.Main.INT/RID.3  Date 24-Nov-16  By User  Location RID$M
+ ;vc; Component name INT.UserAccount.Main  Routine name: UserAccount.Main
+
+DisplayAccountInfo() PUBLIC {
+	WRITE "Account Name: "_$$FullName^UserAccount.Utilities($USERNAME),!
+	WRITE "Startup Namespace: "_$$StartupNamespace^UserAccount.Utilities($USERNAME),!
+	
+	SET loginDateTime=$$LatestValidLogin^UserAccount.Utilities($USERNAME)
+	IF (loginDateTime) {
+		SET loginDate=+loginDateTime
+		SET loginTime=$PIECE(loginDateTime,",",2)
+		WRITE "Last Login: "_$ZDATE(loginDate,2)_" @ "_$ZTIME(loginTime),!
+	}
+}
+]]></Routine>
+</Export>
