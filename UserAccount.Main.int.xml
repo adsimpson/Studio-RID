@@ -6,6 +6,14 @@ DisplayAccountInfo() PUBLIC {
 	WRITE "Account Name: "_$$FullName^UserAccount.Utilities($USERNAME),!
 	WRITE "Startup Namespace: "_$$StartupNamespace^UserAccount.Utilities($USERNAME),!
 	
+	// Expiration date
+	SET expirationDate=$$ExpirationDate^UserAccount.Utilities($USERNAME)
+	WRITE "Expiration Date: "_$SELECT(
+		(expirationDate=""): "",
+		1: $ZDATE(expirationDate,2)
+	)
+	
+	// Last login
 	SET loginDateTime=$$LatestValidLogin^UserAccount.Utilities($USERNAME)
 	IF (loginDateTime) {
 		SET loginDate=+loginDateTime
